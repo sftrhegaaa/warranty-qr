@@ -25,21 +25,28 @@ class WarrantyController extends Controller
         $request->validate([
             'nama'          => 'required|string',
             'email'         => 'required|email',
-            'alamat'        => 'required|string',
-            'tempat_lahir'  => 'required|string',
             'tanggal_lahir' => 'required|date',
             'gender'        => 'required|in:L,P',
+
+            'country_code'  => 'nullable|string|size:2',
+            'province'      => 'nullable|string',
+            'city'          => 'nullable|string',
+            'district'      => 'nullable|string',
+            'village'       => 'nullable|string',
         ]);
 
         Warranty::create([
             'produk_qr_log_id' => $produk->id,
             'nama'             => $request->nama,
             'email'            => $request->email,
-            'alamat'           => $request->alamat,
-            'tempat_lahir'     => $request->tempat_lahir,
             'tanggal_lahir'    => $request->tanggal_lahir,
             'gender'           => $request->gender,
-        ]);
+            'country_code' => $request->country_code,
+            'province'     => $request->province,
+            'city'         => $request->city,
+            'district'     => $request->district,
+            'village'      => $request->village,
+            ]);
 
         return redirect()->route('warranty.verified', $produk->kode_barang);
 

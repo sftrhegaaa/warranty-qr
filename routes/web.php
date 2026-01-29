@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ProdukQrController;
 use App\Http\Controllers\Admin\HistoryWarrantyController;
 use App\Http\Controllers\Admin\HistoryUserController;
 
+use Illuminate\Support\Facades\Http;
 
 
 
@@ -84,6 +85,30 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/warranty/{kode_barang}/verified',[WarrantyController::class, 'verified'])->name('warranty.verified');
 
 
+    
+    Route::get('/api/indo/provinces', function () {
+        return Http::get(
+            'https://emsifa.github.io/api-wilayah-indonesia/api/provinces.json'
+        )->json();
+    });
+
+    Route::get('/api/indo/regencies/{id}', function ($id) {
+        return Http::get(
+            "https://emsifa.github.io/api-wilayah-indonesia/api/regencies/{$id}.json"
+        )->json();
+    });
+
+    Route::get('/api/indo/districts/{id}', function ($id) {
+        return Http::get(
+            "https://emsifa.github.io/api-wilayah-indonesia/api/districts/{$id}.json"
+        )->json();
+    });
+
+    Route::get('/api/indo/villages/{id}', function ($id) {
+        return Http::get(
+            "https://emsifa.github.io/api-wilayah-indonesia/api/villages/{$id}.json"
+        )->json();
+    });
 
 require __DIR__.'/auth.php';
 

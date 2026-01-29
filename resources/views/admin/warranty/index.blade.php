@@ -36,6 +36,8 @@ $(function () {
     $('#warrantyTable').DataTable({
         processing: true,
         serverSide: true,
+        autoWidth: false,   // ⬅️ penting
+        width: '100%', 
         ajax: "{{ route('admin.warranty.data') }}",
         columns: [
             { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, className: 'text-center',render: function (data, type, row, meta) 
@@ -48,7 +50,14 @@ $(function () {
             { data: 'email', name: 'email' },
             { data: 'expired_at', orderable: false, searchable: false },
             { data: 'status', name: 'status', orderable: false, searchable: false },
-            { data: 'created_at', name: 'created_at' },
+            { data: 'created_at', name: 'created_at' ,
+                render: function (data) {
+                if (!data) return '-';
+                const date = new Date(data);
+                return date.toLocaleDateString('id-ID');
+
+            }
+         },
         ],
 
         columnDefs: [

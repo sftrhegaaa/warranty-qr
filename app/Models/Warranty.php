@@ -17,10 +17,13 @@ class Warranty extends Model
         'produk_qr_log_id',
         'nama',
         'email',
-        'alamat',
-        'tempat_lahir',
         'tanggal_lahir',
         'gender',
+        'country_code',
+        'province',
+        'city',
+        'district',
+        'village',
     ];
 
     public function produk()

@@ -108,14 +108,54 @@ class ProdukQrController extends Controller
 
 
     //     /* GENERATE QR CODE */
-    public function downloadSvg($id)
+   public function downloadSvg($id)
     {
         $produk = ProdukQrLog::findOrFail($id);
 
-        $svg = QrCode::format('svg')
-            ->size(300)
+        // 1️⃣ Generate QR SVG
+        $qrSvg = QrCode::format('svg')
+            ->size(500)
+            ->margin(2)
             ->generate($produk->qr);
 
+        // 2️⃣ Hapus XML declaration & tag <svg>
+        $qrSvg = preg_replace('/<\?xml.*?\?>/i', '', $qrSvg);
+        $qrSvg = preg_replace('/<svg[^>]*>|<\/svg>/', '', $qrSvg);
+
+        // 3️⃣ Canvas settings
+        $canvasWidth  = 1000;
+        $canvasHeight = 650;
+        $qrSize       = 500;
+
+        $qrX = ($canvasWidth - $qrSize) / 2;
+        $qrY = 40;
+        $textY = $qrY + $qrSize + 40;
+
+        // 4️⃣ Gabungkan QR + teks
+        $svg = '
+        <svg xmlns="http://www.w3.org/2000/svg"
+            width="'.$canvasWidth.'"
+            height="'.$canvasHeight.'"
+            viewBox="0 0 '.$canvasWidth.' '.$canvasHeight.'">
+
+            <rect width="100%" height="100%" fill="#fff"/>
+
+            <g transform="translate('.$qrX.','.$qrY.')">
+                '.$qrSvg.'
+            </g>
+
+            <text x="'.($canvasWidth / 2).'"
+                y="'.$textY.'"
+                text-anchor="middle"
+                font-size="22"
+                font-family="Arial"
+                fill="#000">
+                '.$produk->kode_barang.'
+            </text>
+
+        </svg>';
+
+        // 5️⃣ RETURN HARUS PALING AKHIR
         return response($svg)
             ->header('Content-Type', 'image/svg+xml')
             ->header(
@@ -123,6 +163,7 @@ class ProdukQrController extends Controller
                 'attachment; filename="QR-'.$produk->kode_barang.'.svg"'
             );
     }
+
 
     
     
