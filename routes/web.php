@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProdukQrController;
 use App\Http\Controllers\Admin\HistoryWarrantyController;
 use App\Http\Controllers\Admin\HistoryUserController;
+use App\Http\Controllers\Admin\DownloadStikerController;
 
 use Illuminate\Support\Facades\Http;
 
@@ -82,9 +83,13 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     // submit form (POST)
     Route::post('/warranty/{kode_barang}', [WarrantyController::class, 'store'])->name('warranty.store');
 
+    Route::get('/warranty/already-scan', function () { return view('warranty.already-scan'); });
+
     Route::get('/warranty/{kode_barang}/verified',[WarrantyController::class, 'verified'])->name('warranty.verified');
 
 
+
+    Route::get('/admin/stiker/{kode}', [DownloadStikerController::class, 'download']);
     
     Route::get('/api/indo/provinces', function () {
         return Http::get(

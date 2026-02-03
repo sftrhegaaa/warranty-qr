@@ -10,11 +10,25 @@ class WarrantyController extends Controller
 {
     public function create($kode)
     {
-        $produk = ProdukQrLog::where('kode_barang', $kode)
-            ->where('status', 'active')
-            ->firstOrFail();
+          // 1. Ambil produk QR (wajib ada & aktif)
+            $produk = ProdukQrLog::where('kode_barang', $kode)
+                ->where('status', 'active')
+                ->first();
 
-        return view('warranty.create', compact('produk'));
+            if (!$produk) {
+                abort(404, 'QR tidak ditemukan atau tidak aktif');
+            }
+
+            // 2. Cek apakah sudah pernah dipakai
+            $warranty = Warranty::where('produk_qr_log_id', $produk->id)
+                ->exists(); // lebih ringan & cepat
+
+            if ($warranty) {
+                return view('warranty.already-scan');
+            }
+
+            // 3. Kalau belum pernah → boleh isi warranty
+            return view('warranty.create', compact('produk'));
     }
 
     public function store(Request $request, $kode)
@@ -47,6 +61,7 @@ class WarrantyController extends Controller
             'district'     => $request->district,
             'village'      => $request->village,
             ]);
+
 
         return redirect()->route('warranty.verified', $produk->kode_barang);
 
