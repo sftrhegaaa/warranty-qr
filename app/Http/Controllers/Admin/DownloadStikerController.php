@@ -9,16 +9,19 @@ class DownloadStikerController extends Controller
 {
     public function download($kode)
     {
+        $qrUrl = url('/warranty/' . $kode);
         $qr = QrCode::format('svg')
         ->size(110)
         ->margin(1)
-        ->generate($kode);
+        ->generate($qrUrl);
 
     // bersihin wrapper svg QR
     $qr = preg_replace('/<\?xml.*?\?>/', '', $qr);
     $qr = preg_replace('/<\/?svg[^>]*>/', '', $qr);
 
     $logo = $this->logoBase64();
+
+  $kodeFormatted = implode('<br />', str_split($kode, 22));
 
     $svg = <<<SVG
 <svg xmlns="http://www.w3.org/2000/svg"
@@ -98,15 +101,15 @@ class DownloadStikerController extends Controller
     <div xmlns="http://www.w3.org/1999/xhtml"
          style="
            font-family: Montserrat, Arial, sans-serif;
-           font-size: 9px;
+           font-size: 8px;
            font-weight: 600;
            text-align: center;
            line-height: 1.2;
            word-break: break-word;
-           max-height: 2.4em;
-           overflow: hidden;
+           max-height: 2.6em;
          ">
-      {$kode}
+    $kodeFormatted
+
     </div>
   </foreignObject>
 

@@ -45,7 +45,8 @@
                     <h5 class="fw-bold text-center mb-3">WARRANTY TERMS</h5>
 
                     <ol class="small text-start">
-                        <li>The warranty period is valid for 6 (six) months from the date of purchase.</li>
+                        <li>The warranty period for RGB lights is valid for 3 (three) months from the date of purchase.</li>
+                        <li>The warranty period for original single-color lights (Red / Blue / White) is valid for 6 (six) months from the date of purchase.</li>
                         <li>The warranty applies only if all required data is filled in completely.</li>
                         <li>Attach the purchase receipt with the shop date and stamp.</li>
                         <li>Warranty is void if damage occurs due to installation errors by the user.</li>
