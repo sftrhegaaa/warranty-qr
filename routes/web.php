@@ -89,7 +89,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
 
 
-    Route::get('/admin/stiker/{kode}', [DownloadStikerController::class, 'download']);
+    Route::get('/admin/stiker/{kode}', [DownloadStikerController::class, 'download'])->name('admin.stiker.download');
+;
     
     Route::get('/api/indo/provinces', function () {
         return Http::get(

@@ -41,8 +41,14 @@
                             <td class="text-center">
                                  <a
                                     href="{{ route('admin.produk_qr.svg', $p->id) }}"
-                                    class="btn btn-sm btn-primary">
-                                    Download SVG
+                                    class="btn btn-outline-primary btn-sm d-block px-2 py-1" style="font-size:11px">
+                                    Download QR
+                                </a>
+                                <br>
+                                 <a
+                                    href="{{ route('admin.stiker.download', $p->kode_barang) }}"
+                                    class="btn btn-outline-primary btn-sm d-block px-2 py-1" style="font-size:11px">
+                                    Download Stiker
                                 </a>
                             </td>
 
