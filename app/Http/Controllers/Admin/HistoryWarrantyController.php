@@ -25,19 +25,19 @@ class HistoryWarrantyController extends Controller
         ->addColumn('kode_barang', fn ($w) => $w->produk->kode_barang ?? '-')
         ->addColumn('nama_produk', fn ($w) => $w->produk->nama_produk ?? '-')
         ->addColumn('warna', fn ($w) => $w->produk->warna ?? '-')
-        ->addColumn('expired_at', function ($w) {
-            return $w->created_at
-                ? $w->created_at->copy()->addMonths(6)->format('d M Y')
-                : '-';
         // ->addColumn('expired_at', function ($w) {
-        //     if (!$w->created_at) return '-';
-
-        //     $bulan = $this->getGaransiBulan($w);
- 
         //     return $w->created_at
-        //         ->copy()
-        //         ->addMonths($bulan)
-        //         ->format('d M Y');
+        //         ? $w->created_at->copy()->addMonths(6)->format('d M Y')
+        //         : '-';
+        ->addColumn('expired_at', function ($w) {
+            if (!$w->created_at) return '-';
+
+            $bulan = $this->getGaransiBulan($w);
+ 
+            return $w->created_at
+                ->copy()
+                ->addMonths($bulan)
+                ->format('d M Y');
 
 
         })
@@ -46,9 +46,9 @@ class HistoryWarrantyController extends Controller
                 return '<span class="badge bg-secondary">UNKNOWN</span>';
             }
 
-            $expired = $w->created_at->copy()->addMonths(6);
-            // $bulan = $this->getGaransiBulan($w);
-            // $expired = $w->created_at->copy()->addMonths($bulan);
+            // $expired = $w->created_at->copy()->addMonths(6);
+            $bulan = $this->getGaransiBulan($w);
+            $expired = $w->created_at->copy()->addMonths($bulan);
 
             return now()->lte($expired)
                 ? '<span class="badge bg-success">ACTIVE</span>'
@@ -58,12 +58,12 @@ class HistoryWarrantyController extends Controller
         ->make(true);
     }
 
-    // private function getGaransiBulan($warranty)
-    // {
-    //     $kode = strtoupper($warranty->produk->kode_barang ?? '');
+    private function getGaransiBulan($warranty)
+    {
+        $kode = strtoupper($warranty->produk->kode_barang ?? '');
 
-    //     // kalau ada kata RGB → 3 bulan
-    //     return str_contains($kode, 'RGB') ? 3 : 6;
-    // }
+        // kalau ada kata RGB → 3 bulan
+        return str_contains($kode, 'RGB') ? 3 : 6;
+    }
 
 }

@@ -14,7 +14,7 @@
                     <input type="text"
                            name="nama_produk"
                            class="form-control"
-                           required>
+                           required placeholder="Nama produk">
                 </div>
 
                 <div class="mb-3">
@@ -22,7 +22,12 @@
                     <input type="text"
                            name="warna"
                            class="form-control"
-                           required>
+                           required placeholder="Warna produk">
+                </div>
+
+                 <div class="mb-3">
+                    <label class="form-label">Nama Toko</label>
+                    <input type="text" name="nama_toko" class="form-control" placeholder="Nama toko">
                 </div>
 
                 <button class="btn btn-primary">

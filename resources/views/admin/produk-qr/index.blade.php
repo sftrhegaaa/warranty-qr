@@ -19,6 +19,7 @@
                             <th class="text-center">Kode Barang</th>
                             <th class="text-center">Nama Produk</th>
                             <th class="text-center">Warna</th>
+                            <th class="text-center">Nama Toko</th>
                             <th class="text-center">QR Code</th>
                             <th class="text-center">Download</th>
                             <th class="text-center">Status</th>
@@ -32,6 +33,7 @@
                             <td class="text-center">{{ $p->kode_barang }}</td>
                             <td class="text-center">{{ $p->nama_produk }}</td>
                             <td class="text-center">{{ $p->warna }}</td>
+                            <td class="text-center">{{ $p->nama_toko }}</td>
                             <td>
                                 {!! QrCode::size(50)->generate($p->qr) !!}
                                 <div class="mt-2 small fw-bold">

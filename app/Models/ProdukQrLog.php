@@ -14,6 +14,7 @@ class ProdukQrLog extends Model
         'kode_barang',
         'nama_produk',
         'warna',
+        'nama_toko',
         'qr',
         'qr_path',
         'status',

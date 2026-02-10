@@ -29,6 +29,14 @@
                            required>
                 </div>
 
+                 <div class="mb-3">
+                    <label class="form-label">Nama Toko</label>
+                    <input type="text"
+                           name="nama_toko"
+                           class="form-control"
+                           value="{{ $produk->nama_toko }}">
+                </div>
+
                 <button class="btn btn-primary">
                     Update
                 </button>

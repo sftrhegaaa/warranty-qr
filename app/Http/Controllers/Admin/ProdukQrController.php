@@ -28,6 +28,8 @@ class ProdukQrController extends Controller
         $request->validate([
             'nama_produk' => 'required|string',
             'warna' => 'required|string',
+            'nama_toko' => 'nullable|string|max:255',
+
         ]);
 
         // slug dari nama produk
@@ -58,6 +60,7 @@ class ProdukQrController extends Controller
             'kode_barang' => $kodeBarang,
             'nama_produk' => $request->nama_produk,
             'warna' => $warna,
+            'nama_toko' => $request->nama_toko,
             'qr' => $qrUrl,
             'status' => 'active',
         ]);
@@ -79,6 +82,7 @@ class ProdukQrController extends Controller
         $request->validate([
             'nama_produk' => 'required|string',
             'warna' => 'required|string',
+            'nama_toko' => 'nullable|string|max:255',
         ]);
 
         $slug = Str::upper(Str::slug($request->nama_produk, '-'));
@@ -92,6 +96,7 @@ class ProdukQrController extends Controller
             'kode_barang' => $kodeBarang,
             'nama_produk' => $request->nama_produk,
             'warna' => $warna,
+            'nama_toko' => $request->nama_toko,
             'qr' => $qrUrl,
         ]);
 
