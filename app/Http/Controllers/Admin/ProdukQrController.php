@@ -85,18 +85,11 @@ class ProdukQrController extends Controller
             'nama_toko' => 'nullable|string|max:255',
         ]);
 
-        $slug = Str::upper(Str::slug($request->nama_produk, '-'));
-        $warna = Str::upper($request->warna);
-        $prefix = 'JPA';
-
-        $kodeBarang = "{$prefix}-{$slug}-{$warna}-001";
-        $qrUrl = url('/qr/' . $kodeBarang);
 
         $produk->update([
             'nama_produk' => $request->nama_produk,
-            'warna' => $warna,
+            'warna' =>  Str::upper($request->warna),
             'nama_toko' => $request->nama_toko,
-            'qr' => $qrUrl,
         ]);
 
         return redirect()->route('admin.produk_qr.index')
@@ -168,8 +161,6 @@ class ProdukQrController extends Controller
             );
     }
 
-
-    
     
     public function generateQr($id)
     {
@@ -246,9 +237,6 @@ class ProdukQrController extends Controller
             </text>
 
         </svg>';
-
-
-
 
 
         Storage::disk('public')->put($path, $svg);
