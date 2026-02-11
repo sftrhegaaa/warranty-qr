@@ -12,6 +12,12 @@
                 @method('PUT')
 
                 <div class="mb-3">
+                    <label class="form-label">Kode Barang</label>
+                    <input type="text" class="form-control" value="{{ $produk->kode_barang }}" disabled>
+
+                </div>
+
+                <div class="mb-3">
                     <label class="form-label">Nama Produk</label>
                     <input type="text"
                            name="nama_produk"

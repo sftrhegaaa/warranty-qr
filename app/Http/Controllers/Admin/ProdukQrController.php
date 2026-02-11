@@ -93,7 +93,6 @@ class ProdukQrController extends Controller
         $qrUrl = url('/qr/' . $kodeBarang);
 
         $produk->update([
-            'kode_barang' => $kodeBarang,
             'nama_produk' => $request->nama_produk,
             'warna' => $warna,
             'nama_toko' => $request->nama_toko,
