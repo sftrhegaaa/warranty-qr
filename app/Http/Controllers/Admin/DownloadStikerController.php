@@ -11,7 +11,7 @@ class DownloadStikerController extends Controller
     {
         $qrUrl = url('/warranty/' . $kode);
         $qr = QrCode::format('svg')
-        ->size(160)
+        ->size(200)
         ->margin(0)
         ->generate($qrUrl);
 
@@ -36,57 +36,45 @@ $line3 = trim($lines[2] ?? '');
 
   $svg = <<<SVG
 <svg xmlns="http://www.w3.org/2000/svg"
-     width="900" height="320"
-     viewBox="0 0 900 320">
+     width="850" height="320"
+     viewBox="0 0 850 320">
 
-     <defs>
-      <linearGradient id="bgDark" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#0a0a0a"/>
-        <stop offset="100%" stop-color="#1f2326"/>
-      </linearGradient>
+  <defs>
+    <linearGradient id="bgDark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="100%" stop-color="#101417"/>
+    </linearGradient>
+  </defs>
 
-      <filter id="cardShadow">
-        <feDropShadow dx="0" dy="4"
-                      stdDeviation="10"
-                      flood-color="#000"
-                      flood-opacity="0.35"/>
-      </filter>
-    </defs>
-
-
-  <!-- GREY PREVIEW BACKGROUND (ROUNDED) -->
+  <!-- OUTER BLACK FRAME -->
   <rect x="0" y="0"
-        width="900" height="320"
-        rx="34"
-        fill="#ffffff"/>
+        width="850" height="320"
+        rx="36"
+        fill="#000000"
+        stroke="#FFFFFF"
+        stroke-width="8"/>
 
-  <!-- WHITE BORDER -->
-  <rect x="2" y="2"
-        width="896" height="316"
+  <!-- INNER DARK CARD (FRAME EFFECT) -->
+  <rect x="6" y="6"
+        width="838"
+        height="308"
         rx="30"
-        fill="none"
-        stroke="#ffffff"
-        stroke-width="2"/>
-
-
-  <!-- DARK CARD -->
-<rect x="6" y="6"
-      width="888" height="308"
-      rx="26"
-      fill="url(#bgDark)"
-      filter="url(#cardShadow)"/>
+        fill="url(#bgDark)"/>
 
   <!-- LOGO -->
   <image href="$logo"
-       x="48" y="34"
-       width="220" height="66"/>
-
+         x="48" y="40"
+         width="200" height="60"/>
 
   <!-- BADGE -->
-  <g transform="translate(300,42)">
-    <rect width="170" height="32" rx="16" fill="#0f0f0f" stroke="#2a2a2a"/>
-    <circle cx="18" cy="16" r="5" fill="#ff2d2d"/>
-    <text x="36" y="21"
+  <g transform="translate(300,45)">
+    <rect width="180" height="34"
+          rx="17"
+          fill="#000"
+          stroke="#555"
+          stroke-width="1"/>
+    <circle cx="20" cy="17" r="5" fill="#ff2d2d"/>
+    <text x="40" y="22"
           font-size="12"
           font-family="Montserrat, Arial"
           font-weight="600"
@@ -95,51 +83,48 @@ $line3 = trim($lines[2] ?? '');
     </text>
   </g>
 
-    <!-- TITLE (CONNECTED, NOT CUT) -->
-  <text x="48" y="120"
-        font-size="28"
+  <!-- TITLE -->
+  <text x="48" y="135"
+        font-size="30"
         font-family="Montserrat, Arial"
         font-weight="800"
         fill="#ffffff">
     <tspan x="48" dy="0">Scan QR Code to fill</tspan>
-    <tspan x="48" dy="38">in the warranty registration form.</tspan>
+    <tspan x="48" dy="36">in the warranty</tspan>
+    <tspan x="48" dy="36">registration form.</tspan>
   </text>
 
+  <!-- SUBTEXT -->
+  <text x="48" y="240"
+        font-size="16"
+        font-family="Montserrat, Arial"
+        fill="#bdbdbd">
+    Please carefully read the warranty terms and conditions.
+  </text>
 
-    <!-- SUBTEXT -->
-    <text x="48" y="240"
-          font-size="15"
-          font-family="Montserrat, Arial"
-          fill="#bdbdbd">
-      Please carefully read the warranty terms and conditions.
-    </text>
+  <!-- QR WHITE CARD -->
+  <rect x="590" y="23"
+        width="250"
+        height="280"
+        rx="28"
+        fill="#f4f4f4"/>
 
- <!-- QR CARD -->
-<rect x="630" y="10"
-      width="260" height="300"
-      rx="26"
-      fill="#ffffff"/>
+  <!-- QR -->
+  <g transform="translate(615 50)">
+    $qr
+  </g>
 
-
-<!-- QR CODE (CENTERED & BIGGER) -->
-<g transform="translate(688 74)">
-  $qr
-</g>
-
-   <!-- CODE (FINAL POSITION) -->
-<text x="772" y="250"
-      font-size="10"
-      font-family="Montserrat, Arial"
-      font-weight="600"
-      fill="#000"
-      text-anchor="middle">
-  <tspan x="772" dy="0">$line1</tspan>
-  <tspan x="772" dy="11">$line2</tspan>
-  <tspan x="772" dy="11">$line3</tspan>
-</text>
-
-
-
+  <!-- CODE -->
+  <text x="705" y="272"
+        font-size="10"
+        font-family="Montserrat, Arial"
+        font-weight="600"
+        fill="#000"
+        text-anchor="middle">
+    <tspan x="720" dy="0">$line1</tspan>
+    <tspan x="720" dy="12">$line2</tspan>
+    <tspan x="720" dy="12">$line3</tspan>
+  </text>
 
 </svg>
 SVG;

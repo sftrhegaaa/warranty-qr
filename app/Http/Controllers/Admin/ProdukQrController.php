@@ -7,7 +7,8 @@ use App\Models\ProdukQrLog;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Storage;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ProdukQrImport;
 
 class ProdukQrController extends Controller
 {
@@ -249,6 +250,12 @@ class ProdukQrController extends Controller
     }
 
 
+    public function import(Request $request)
+    {
+        Excel::import(new ProdukQrImport, $request->file('file'));
+
+        return back()->with('success', 'Data berhasil diimport');
+    }
 
 
 

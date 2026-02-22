@@ -56,6 +56,10 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     /* DELETE */
     Route::delete('/produk-qr/{produk}', [ProdukQrController::class, 'destroy'])->name('admin.produk_qr.destroy');
 
+    /* IMPORT EXCEL */
+    Route::post('/produk-qr/import', [ProdukQrController::class, 'import'])->name('admin.produk_qr.import');
+
+
     /* Produk QR SVG */
     Route::get('/produk-qr/{id}/svg', [ProdukQrController::class, 'downloadSvg'])->name('admin.produk_qr.svg');
 
@@ -90,7 +94,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
 
     Route::get('/admin/stiker/{kode}', [DownloadStikerController::class, 'download'])->name('admin.stiker.download');
-;
+
     
     Route::get('/api/indo/provinces', function () {
         return Http::get(
