@@ -33,12 +33,17 @@ class ProdukQrImport implements ToModel
 
     // Cari nomor terakhir
     $last = ProdukQrLog::where('kode_barang', 'like', $prefix.'-%')
-        ->orderByDesc('kode_barang')
+        ->orderByDesc('id')
         ->first();
 
-    $lastNumber = $last ? (int) substr($last->kode_barang, -3) : 0;
-    $nextNumber = str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT);
+        if ($last) {
+        $parts = explode('-', $last->kode_barang);
+        $lastNumber = (int) end($parts);
+    } else {
+        $lastNumber = 0;
+    }
 
+    $nextNumber = $lastNumber + 1;
     $kodeBarang = "{$prefix}-{$nextNumber}";
 
     return new ProdukQrLog([

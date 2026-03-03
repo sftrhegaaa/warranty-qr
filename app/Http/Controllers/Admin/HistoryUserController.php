@@ -23,7 +23,7 @@ class HistoryUserController extends Controller
     foreach ($warranties as $w) {
 
         // default alamat lama
-        $w->alamat_admin = $w->alamat;
+        $w->alamat_admin = $w->address;
 
         if ($w->country_code === 'ID' && $w->province) {
 
@@ -52,10 +52,16 @@ class HistoryUserController extends Controller
                 ->firstWhere('id', $w->village);
 
             $w->alamat_admin =
-                "{$w->alamat}<br>" .
+                "{$w->address}<br>" .
                 "{$prov['name']}, {$city['name']}<br>" .
                 "Kec. {$district['name']}, Kel. {$village['name']}";
         }
+        else {     
+            $w->alamat_admin =
+                ($w->address ?? '-') . '<br>' .
+                ($w->global_city ?? '-') . ', ' . ($w->state ?? '-') . '<br>' .
+                ($w->country_code ?? '-');
+                }
     }
 
         // $warranties = Warranty::with('produk')

@@ -1,9 +1,16 @@
 <?php
 
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+
+// define('LARAVEL_START', microtime(true));
+
+
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
-define('LARAVEL_START', microtime(true));
+
 
 // Determine if the application is in maintenance mode...
 if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {

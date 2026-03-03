@@ -47,6 +47,7 @@ class WarrantyController extends Controller
             'city'          => 'nullable|string',
             'district'      => 'nullable|string',
             'village'       => 'nullable|string',
+            'address'       => 'nullable|string',
         ]);
 
         Warranty::create([
@@ -60,7 +61,11 @@ class WarrantyController extends Controller
             'city'         => $request->city,
             'district'     => $request->district,
             'village'      => $request->village,
+            'address'      => $request->address,
+            'state'        => $request->state,
+            'global_city'  => $request->global_city,
             ]);
+
 
 
         return redirect()->route('warranty.verified', $produk->kode_barang);

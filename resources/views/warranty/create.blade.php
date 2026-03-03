@@ -149,13 +149,13 @@
     
                                 <!-- GLOBAL ADDRESS -->
                                 <div class="mb-3" id="global-address" style="display:none;">
-                                    <input type="text" class="form-control mb-3 mt-3" placeholder="State / Region">
-                                    <input type="text" class="form-control mb-3" placeholder="City">
+                                    <input type="text" name="state" class="form-control mb-3 mt-3" placeholder="State / Region">
+                                    <input type="text" name="global_city" class="form-control mb-3" placeholder="City">
                                 </div>
                                 
                                 <div class="col mb-3">
                                     <label class="form-label mt-3">Alamat</label>
-                                    <textarea class="form-control" rows="3" placeholder="Address Detail"></textarea>
+                                    <textarea class="form-control" name="address" rows="3" placeholder="Address Detail"></textarea>
                                 </div>
 
                             </div>

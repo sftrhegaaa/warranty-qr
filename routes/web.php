@@ -11,7 +11,7 @@ use App\Http\Controllers\Admin\ProdukQrController;
 use App\Http\Controllers\Admin\HistoryWarrantyController;
 use App\Http\Controllers\Admin\HistoryUserController;
 use App\Http\Controllers\Admin\DownloadStikerController;
-
+use App\Models\ProdukQrLog;
 use Illuminate\Support\Facades\Http;
 
 
@@ -71,13 +71,18 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     /* History User */
     Route::get('/history-user',[HistoryUserController::class, 'index'])->name('admin.user-history.index');
 
+    Route::get('/stiker-import/{lastId}', [ProdukQrController::class, 'downloadA4Pdf'])->name('admin.stiker.import');
+    Route::get('/stiker/{kode}', [DownloadStikerController::class, 'download'])->name('admin.stiker.download');
+    // Route::get('/stiker-a4/{lastId}', [ProdukQrController::class, 'downloadA4Pdf1'])->name('admin.stiker.a4');
+    Route::get('/stiker-a4/{start}/{end}', [ProdukQrController::class, 'downloadA4Pdf'])->name('admin.stiker.a4');
+    Route::post('/import-batch', [ProdukQrController::class, 'importBatch'])->name('admin.produk_qr.import_batch');
+    Route::post('/produk-qr/import-finish/{start}/{end}', [ProdukQrController::class, 'importFinish'])->name('admin.produk_qr.import_finish');
     // Route::get('/produk-qr/{id}/generate', [ProdukQrController::class, 'generateQr'])->name('admin.produk_qr.generate');
 
     // Route::post('/produk-qr/{id}/generate',[ProdukQrController::class, 'generateQr'])->name('admin.produk_qr.generate');
 
 
 });
-
 
     Route::get('/qr/{kode}', [QrController::class, 'show'])->name('qr.index');
 
@@ -92,8 +97,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/warranty/{kode_barang}/verified',[WarrantyController::class, 'verified'])->name('warranty.verified');
 
 
-
-    Route::get('/admin/stiker/{kode}', [DownloadStikerController::class, 'download'])->name('admin.stiker.download');
+    Route::get('/phpinfo', function () {
+        phpinfo();
+    });
 
     
     Route::get('/api/indo/provinces', function () {
