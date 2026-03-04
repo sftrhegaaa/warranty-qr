@@ -51,15 +51,6 @@
     </div>
   </div>
 </div>
-
-            {{-- <input type="file" id="fileInput">
-            <button onclick="uploadData()" class="btn btn-primary btn-sm">Upload Excel</button> --}}
-
-            
-{{-- 
-            <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#importModal">
-                <i class="fa fa-upload" aria-hidden="true"></i> Import Excel
-            </button> --}}
         </div>
 
 
@@ -68,32 +59,6 @@
             + Tambah Produk
         </a>
     </div>
-
-    <!-- Import Modal -->
-    {{-- <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="importModalLabel">Import Data Produk QR dari Excel</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="{{ route('admin.produk_qr.import') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="file" class="form-label">Pilih file Excel</label>
-                            <input type="file" class="form-control" id="file" name="file" accept=".xlsx, .xls" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Import</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div> --}}
-    
 
     <div class="card shadow-sm">
         <div class="card-body">

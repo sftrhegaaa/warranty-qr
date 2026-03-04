@@ -41,7 +41,7 @@ class WarrantyController extends Controller
             'email'         => 'required|email',
             'tanggal_lahir' => 'required|date',
             'gender'        => 'required|in:L,P',
-
+            'nota'          => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'country_code'  => 'nullable|string|size:2',
             'province'      => 'nullable|string',
             'city'          => 'nullable|string',
@@ -49,6 +49,12 @@ class WarrantyController extends Controller
             'village'       => 'nullable|string',
             'address'       => 'nullable|string',
         ]);
+
+        // $notaPath = null;
+
+        // if ($request->hasFile('nota')) {
+        //     $notaPath = $request->file('nota')->store('nota', 'public');
+        // }
 
         Warranty::create([
             'produk_qr_log_id' => $produk->id,
@@ -64,6 +70,7 @@ class WarrantyController extends Controller
             'address'      => $request->address,
             'state'        => $request->state,
             'global_city'  => $request->global_city,
+            'nota'    => $request->file('nota')->store('nota', 'public'),
             ]);
 
 

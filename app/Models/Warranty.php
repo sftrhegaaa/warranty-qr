@@ -27,6 +27,7 @@ class Warranty extends Model
         'address',
         'state',
         'global_city',
+        'nota',
     ];
 
     public function produk()

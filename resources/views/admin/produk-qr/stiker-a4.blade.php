@@ -2,37 +2,42 @@
 <html>
 <head>
 <meta charset="utf-8">
+
 <style>
 @page {
-    size: 30mm 20mm;
+    size: 40mm 30mm;
     margin: 0;
 }
 
 body {
     margin: 0;
-    padding: 0;
     font-family: DejaVu Sans, sans-serif;
 }
 
 .label {
-    width: 30mm;
-    height: 20mm;
-    text-align: center;
+    width: 40mm;
+    height: 30mm;
     page-break-after: always;
+    page-break-inside: avoid;
+    overflow: hidden;
+    text-align: center;
 }
 
 .qr {
-    width: 13mm;
-    height: 13mm;
-    margin-top: 1mm;
+    width: 23mm;   /* 🔥 ukuran paling aman */
+    height: 23mm;
+    display: block;
+    margin: 0.6mm auto 0 auto;
 }
 
 .kode {
-    font-size: 5pt;
-    font-weight: bold;
-    line-height: 1;
+    font-size: 5.4pt;
+    font-weight: 700;
     margin-top: 0.5mm;
-
+    line-height: 1;
+    letter-spacing: 0.5px;   /* biar lebih rapi */
+    word-break: break-word;
+    text-align: center;
 }
 </style>
 </head>
@@ -45,7 +50,7 @@ body {
     <img class="qr"
          src="data:image/png;base64,{{ base64_encode(file_get_contents(storage_path('app/public/'.$sticker->qr_path))) }}">
     <div class="kode">
-        {{ $sticker->kode_barang }}
+        {{strtoupper(str_replace('-', '-', $sticker->kode_barang)) }}
     </div>
 </div>
 

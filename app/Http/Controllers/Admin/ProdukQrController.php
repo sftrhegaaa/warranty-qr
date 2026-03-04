@@ -119,7 +119,7 @@ class ProdukQrController extends Controller
         $produk = ProdukQrLog::findOrFail($id);
 
         // 1️⃣ Generate QR SVG
-        $qrSvg = QrCode::format('png')
+        $qrSvg = QrCode::format('svg')
             ->size(600)
             ->margin(2)
             ->generate($produk->qr);
@@ -131,11 +131,11 @@ class ProdukQrController extends Controller
         // 3️⃣ Canvas settings
         $canvasWidth  = 1000;
         $canvasHeight = 650;
-        $qrSize       = 500;
+        $qrSize       = 600;
 
         $qrX = ($canvasWidth - $qrSize) / 2;
         $qrY = 40;
-        $textY = $qrY + $qrSize + 40;
+        $textY = $qrY + $qrSize + 2;
 
         // 4️⃣ Gabungkan QR + teks
         $svg = '

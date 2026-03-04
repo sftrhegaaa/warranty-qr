@@ -82,7 +82,7 @@
                     @endif
 
                     {{-- FORM --}}
-                    <form method="POST" action="{{ route('warranty.store', $produk->kode_barang) }}">
+                    <form method="POST" action="{{ route('warranty.store', $produk->kode_barang) }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="mb-3">
@@ -114,7 +114,14 @@
                                 <option value="P">Perempuan</option>
                             </select>
                         </div>
+                        <div class="row">
+                            
 
+                            <div class="col mb-3">
+                                <label class="form-label">Upload Nota</label>
+                                <input type="file" name="nota" class="form-control" required>
+                            </div>
+                        </div>
                         <div class="row">
 
                             <div class="mb-3">

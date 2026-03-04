@@ -13,6 +13,7 @@
                             <th class="text-center">No</th>
                             <th class="text-center">Nama</th>
                             <th class="text-center">Email</th>  
+                             <th class="text-center">Nota</th>
                             <th class="text-center">Tanggal Lahir</th>
                             <th class="text-center">Gender</th>
                             <th class="text-center">Address Information</th>
@@ -24,6 +25,11 @@
                             <td class="text-center">{{ $loop->iteration }}.</td>
                             <td class="text-center">{{ $p->nama }}</td>
                             <td class="text-center">{{ $p->email }}</td>
+                            <td>
+                                <a href="{{ asset('storage/'.$p->nota) }}" target="_blank">
+                                    Lihat Nota
+                                </a>
+                            </td>
                             <td class="text-center">{{ $p->tanggal_lahir }}</td>
                             <td class="text-center">{{ $p->gender }}</td>
                             <td class="text-center">{!! $p->alamat_admin !!}</td>
