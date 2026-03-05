@@ -127,7 +127,7 @@
 
                             <div class="col mb-3">
                                 <label class="form-label">Upload Nota</label>
-                                <input type="file" name="nota" class="form-control" accept="image/*" required>
+                                <input type="file" name="nota" id="notaInput" class="form-control" accept="image/*" required>
                             </div>
                         </div>
                         <div class="row">
@@ -282,6 +282,60 @@ country.addEventListener('change', function () {
 });
 
 
+</script>
+<script>
+document.getElementById("notaInput").addEventListener("change", function (event) {
+
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = function (e) {
+
+        const img = new Image();
+        img.src = e.target.result;
+
+        img.onload = function () {
+
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
+            let width = img.width;
+            let height = img.height;
+
+            const MAX_WIDTH = 1280;
+
+            if (width > MAX_WIDTH) {
+                height = height * (MAX_WIDTH / width);
+                width = MAX_WIDTH;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            ctx.drawImage(img, 0, 0, width, height);
+
+            canvas.toBlob(function(blob){
+
+                const compressedFile = new File(
+                    [blob],
+                    file.name,
+                    {type: "image/jpeg"}
+                );
+
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(compressedFile);
+
+                document.getElementById("notaInput").files = dataTransfer.files;
+
+                console.log("Compressed size:", (compressedFile.size/1024).toFixed(0), "KB");
+
+            }, "image/jpeg", 0.7); // kualitas 70%
+        }
+    }
+});
 </script>
 </body>
 </html>
