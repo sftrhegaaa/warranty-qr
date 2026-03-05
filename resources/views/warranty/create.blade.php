@@ -119,7 +119,7 @@
 
                             <div class="col mb-3">
                                 <label class="form-label">Upload Nota</label>
-                                <input type="file" name="nota" class="form-control" accept="image/*" capture="environment" required>
+                                <input type="file" name="nota" class="form-control" accept="image/*" required>
                             </div>
                         </div>
                         <div class="row">
