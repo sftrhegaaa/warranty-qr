@@ -50,11 +50,9 @@ class WarrantyController extends Controller
             'address'       => 'nullable|string',
         ]);
 
-        // $notaPath = null;
-
-        // if ($request->hasFile('nota')) {
-        //     $notaPath = $request->file('nota')->store('nota', 'public');
-        // }
+        $file = $request->file('nota');
+        $filename = uniqid().'.'.$file->getClientOriginalExtension();
+        $file->move(public_path('storage/nota'), $filename);
 
         Warranty::create([
             'produk_qr_log_id' => $produk->id,
@@ -70,7 +68,7 @@ class WarrantyController extends Controller
             'address'      => $request->address,
             'state'        => $request->state,
             'global_city'  => $request->global_city,
-            'nota'    => $request->file('nota')->store('nota', 'public'),
+            'nota'    => $filename,
             ]);
 
 
