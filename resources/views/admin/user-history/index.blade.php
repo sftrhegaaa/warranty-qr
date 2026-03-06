@@ -26,7 +26,7 @@
                             <td class="text-center">{{ $p->nama }}</td>
                             <td class="text-center">{{ $p->email }}</td>
                             <td>
-                                <a href="{{ asset('storage/'.$p->nota) }}" target="_blank">
+                                <a href="{{ asset('storage/nota/'.$p->nota) }}" target="_blank">
                                     Lihat Nota
                                 </a>
                             </td>
