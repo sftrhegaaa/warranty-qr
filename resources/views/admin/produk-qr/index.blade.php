@@ -45,7 +45,7 @@
         <input type="file" class="form-control" id="fileInput" name="file" accept=".xlsx, .xls" required>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
         <button onclick="uploadData()" class="btn btn-success btn-sm">Upload</button>
       </div>
     </div>
