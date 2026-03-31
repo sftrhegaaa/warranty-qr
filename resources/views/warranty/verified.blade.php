@@ -65,7 +65,7 @@
                 <div class="col-md-6">
 
                     <h5 class="fw-bold text-success mb-3 text-center text-md-start">
-                        Produk Terverifikasi
+                        Product Verified
                     </h5>
 
                     <p class="mb-2">
@@ -74,12 +74,12 @@
                     </p>
 
                     <p class="mb-2">
-                        <strong>Produk:</strong><br>
+                        <strong>Product:</strong><br>
                         {{ $produk->nama_produk }}
                     </p>
 
                     <p class="mb-2">
-                        <strong>Warna:</strong> {{ $produk->warna }}
+                        <strong>Color:</strong> {{ $produk->warna }}
                     </p>
 
                     <p class="mb-0">

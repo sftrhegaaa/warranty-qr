@@ -169,7 +169,7 @@
                                 </div>
                                 
                                 <div class="col mb-3">
-                                    <label class="form-label mt-3">Alamat</label>
+                                    <label class="form-label mt-3">Address</label>
                                     <textarea class="form-control" name="address" rows="3" placeholder="Address Detail"></textarea>
                                 </div>
 
