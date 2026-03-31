@@ -40,7 +40,7 @@ class WarrantyController extends Controller
             'nama'          => 'required|string',
             'email'         => 'required|email',
             'tanggal_lahir' => 'required|date',
-            'gender'        => 'required|in:L,P',
+            'gender'        => 'nullable|string',
             'nota'          => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'country_code'  => 'nullable|string|size:2',
             'province'      => 'nullable|string',

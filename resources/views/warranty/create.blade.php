@@ -59,9 +59,9 @@
 
                     {{-- HEADER --}}
                     <div class="text-center mb-4">
-                        <h4 class="fw-bold">Registrasi Warranty</h4>
+                        <h4 class="fw-bold">Warranty Registration</h4>
                         <p class="text-muted small mb-0">
-                            Silahkan lengkapi data untuk mengaktifkan warranty produk
+                            Please complete the data to activate the product warranty
                         </p>
                     </div>
 
@@ -94,7 +94,7 @@
                         @csrf
 
                         <div class="mb-3">
-                            <label class="form-label">Nama Lengkap</label>
+                            <label class="form-label">Full Name</label>
                             <input type="text" name="nama" class="form-control" required>
                         </div>
 
@@ -109,19 +109,19 @@
                             
 
                             <div class="col mb-3">
-                                <label class="form-label">Tanggal Lahir</label>
+                                <label class="form-label">Date of Birth</label>
                                 <input type="date" name="tanggal_lahir" class="form-control" required>
                             </div>
                         </div>
 
-                        <div class="mb-4">
+                        {{-- <div class="mb-4">
                             <label class="form-label">Gender</label>
                             <select name="gender" class="form-select" required>
                                 <option value="">Pilih Gender</option>
                                 <option value="L">Laki-laki</option>
                                 <option value="P">Perempuan</option>
                             </select>
-                        </div>
+                        </div> --}}
                         <div class="row">
                             
 
@@ -133,7 +133,7 @@
                         <div class="row">
 
                             <div class="mb-3">
-                                <h5 class="title">Address Information</h5>
+                                <label class="form-label">Address Information</label>
     
                                 <!-- COUNTRY -->
                                 <select id="country" name="country_code" class="form-control">
@@ -144,19 +144,19 @@
                                 <div class="mb-3" id="indonesia-address" style="display:none;">
     
                                     <select id="province" name="province" class="form-control mb-3 mt-3">
-                                        <option value="">Provinsi</option>
+                                        <option value="">Province</option>
                                     </select>
     
                                     <select id="regency" name="city" class="form-control mb-3" disabled>
-                                        <option value="">Kabupaten / Kota</option>
+                                        <option value="">Regency / City</option>
                                     </select>
     
                                     <select id="district" name="district" class="form-control mb-3" disabled>
-                                        <option value="">Kecamatan</option>
+                                        <option value="">District</option>
                                     </select>
     
                                     <select id="village" name="village" class="form-control mb-3" disabled>
-                                        <option value="">Kelurahan</option>
+                                        <option value="">Village</option>
                                     </select>
     
                                 </div>
