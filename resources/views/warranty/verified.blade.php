@@ -55,7 +55,7 @@
 
                     {{-- LOGO UNDER TERMS --}}
                     <div class="text-center mt-4">
-                        <img src="{{ asset('assets/JPA-01.png') }}" class="logo mb-2" alt="GMA Logo">
+                        <img src="{{ asset('assets/LOGO-JPA.png') }}" class="logo mb-2" alt="GMA Logo">
                         <div class="fw-semibold small">Warranty Verification</div>
                     </div>
 
