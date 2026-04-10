@@ -181,7 +181,7 @@ class ProdukQrController extends Controller
         Storage::disk('public')->makeDirectory('qr');
 
         $png = QrCode::format('png')
-            ->size(300)
+            ->size(250)
             ->margin(1)
             ->generate($produk->qr);
 
@@ -263,46 +263,47 @@ class ProdukQrController extends Controller
     return $pdf->download('STIKER-A4.pdf');
 }
 
-    public function downloadA4Pdf1($lastId)
-    {
 
-        $data = ProdukQrLog::where('id', '>', $lastId)->get();
+    // public function downloadA4Pdf1($lastId)
+    // {
+
+    //     $data = ProdukQrLog::where('id', '>', $lastId)->get();
 
 
-        if ($data->isEmpty()) {
-            return back()->with('error', 'Data tidak ditemukan.');
-        }
+    //     if ($data->isEmpty()) {
+    //         return back()->with('error', 'Data tidak ditemukan.');
+    //     }
 
         
-        foreach ($data as $item) {
+    //     foreach ($data as $item) {
 
-            $filename = "stiker-{$item->kode_barang}.png";
-            $path = "qr/" . $filename;
+    //         $filename = "stiker-{$item->kode_barang}.png";
+    //         $path = "qr/" . $filename;
 
-            // 🔥 cek kalau belum ada file
-            if (!Storage::disk('public')->exists($path)) {
+    //         // 🔥 cek kalau belum ada file
+    //         if (!Storage::disk('public')->exists($path)) {
 
-                Storage::disk('public')->makeDirectory('qr');
+    //             Storage::disk('public')->makeDirectory('qr');
 
-                $png = QrCode::format('png')
-                    ->size(300)
-                    ->margin(1)
-                    ->generate(url('/warranty/' . $item->kode_barang));
+    //             $png = QrCode::format('png')
+    //                 ->size(300)
+    //                 ->margin(1)
+    //                 ->generate(url('/warranty/' . $item->kode_barang));
 
-                Storage::disk('public')->put($path, $png);
+    //             Storage::disk('public')->put($path, $png);
 
-                $item->update([
-                    'qr_path' => $path
-                ]);
-            }
-        }
+    //             $item->update([
+    //                 'qr_path' => $path
+    //             ]);
+    //         }
+    //     }
 
-        $pdf = PDF::loadView('admin.produk-qr.stiker-a4', [
-            'stickers' => $data
-        ])->setPaper('a4', 'portrait');
+    //     $pdf = PDF::loadView('admin.produk-qr.stiker-a4', [
+    //         'stickers' => $data
+    //     ])->setPaper('a4', 'portrait');
 
-        return $pdf->download('STIKER-A4.pdf');
-    }
+    //     return $pdf->download('STIKER-A4.pdf');
+    // }
 
 
 //  public function importBatch(Request $request)

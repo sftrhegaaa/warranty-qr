@@ -31,13 +31,16 @@ body {
 }
 
 .kode {
-    font-size: 5.4pt;
+     font-size: 4.8pt;        /* kecilin dikit dari 5.3pt */
     font-weight: 700;
-    margin-top: 0.5mm;
-    line-height: 1;
-    letter-spacing: 0.5px;   /* biar lebih rapi */
-    word-break: break-word;
+    margin-top: 0.4mm;
+    line-height: 1.05;
+    letter-spacing: 0.4px;
+
     text-align: center;
+    word-break: break-word;
+
+    transform: translateX(-0.5mm); 
 }
 </style>
 </head>
@@ -49,9 +52,16 @@ body {
 <div class="label">
     <img class="qr"
          src="data:image/png;base64,{{ base64_encode(file_get_contents(storage_path('app/public/'.$sticker->qr_path))) }}">
-    <div class="kode">
-        {{strtoupper(str_replace('-', '-', $sticker->kode_barang)) }}
-    </div>
+    @php
+    $kode = strtoupper($sticker->kode_barang);
+    $split = explode('-', $kode);
+    $last = array_pop($split);
+@endphp
+
+<div class="kode">
+    {{ implode('-', $split) }}-<br>
+    {{ $last }}
+</div>
 </div>
 
 @endforeach
