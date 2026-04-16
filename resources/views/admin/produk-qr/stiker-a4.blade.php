@@ -49,7 +49,8 @@ body {
 @foreach($stickers as $sticker)
 
 <div class="label">
-    <img class="qr" src="{{ asset('storage/'.$sticker->qr_path) }}">
+    {{-- <img class="qr" src="{{ asset('storage/'.$sticker->qr_path) }}"> --}}
+    <img class="qr" src="data:image/png;base64,{{ base64_encode(file_get_contents(storage_path('app/public/' . $sticker->qr_path))) }}">
     @php
     $kode = strtoupper($sticker->kode_barang);
     $parts = explode('-', $kode);
