@@ -48,15 +48,12 @@ class ProdukQrController extends Controller
 
         $warna = Str::upper($request->warna);
 
-        // prefix brand (opsional)
-        $prefix = 'JPA';
 
         // hitung urutan
-        $count = ProdukQrLog::where('kode_barang', 'like', "{$prefix}-{$slug}-{$warna}-%")->count() + 1;
+        $count = ProdukQrLog::where('kode_barang', 'like', "{$slug}-{$warna}-%")->count() + 1;
 
         $kodeBarang = sprintf(
             '%s-%s-%s-%03d',
-            $prefix,
             $slug,
             $warna,
             $count
@@ -391,7 +388,7 @@ public function importBatch(Request $request)
                 'status'      => 'active',
             ]);
 
-            $kodeBarang = "JPA-{$slug}-{$warna}-{$produk->id}";
+            $kodeBarang = "{$slug}-{$warna}-{$produk->id}";
 
             $produk->update([
                 'kode_barang' => $kodeBarang,

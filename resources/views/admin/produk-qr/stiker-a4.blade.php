@@ -17,26 +17,25 @@ body {
 .label {
     width: 40mm;
     height: 30mm;
-    page-break-after: always;
     page-break-inside: avoid;
     overflow: hidden;
     text-align: center;
 }
 
 .qr {
-    width: 23mm;   /* 🔥 ukuran paling aman */
-    height: 23mm;
+    width: 21mm; 
+    height: auto;
     display: block;
     margin: 0.6mm auto 0 auto;
 }
 
 .kode {
-     font-size: 4.8pt;        /* kecilin dikit dari 5.3pt */
+     font-size: 4.3pt;
     font-weight: 700;
     margin-top: 0.4mm;
-    line-height: 1.05;
-    letter-spacing: 0.4px;
-
+    line-height: 1.0;
+    max-height: 6mm;
+    overflow: hidden;
     text-align: center;
     word-break: break-word;
 
@@ -50,18 +49,21 @@ body {
 @foreach($stickers as $sticker)
 
 <div class="label">
-    <img class="qr"
-         src="data:image/png;base64,{{ base64_encode(file_get_contents(storage_path('app/public/'.$sticker->qr_path))) }}">
+    <img class="qr" src="{{ asset('storage/'.$sticker->qr_path) }}">
     @php
     $kode = strtoupper($sticker->kode_barang);
-    $split = explode('-', $kode);
-    $last = array_pop($split);
-@endphp
+    $parts = explode('-', $kode);
 
-<div class="kode">
-    {{ implode('-', $split) }}-<br>
-    {{ $last }}
-</div>
+    $half = ceil(count($parts)/2);
+
+    $line1 = implode('-', array_slice($parts, 0, $half));
+    $line2 = implode('-', array_slice($parts, $half));
+    @endphp
+
+    <div class="kode">
+        {{ $line1 }}<br>
+        {{ $line2 }}
+    </div>
 </div>
 
 @endforeach
