@@ -197,91 +197,329 @@
 
 
 <script>
-const country = document.getElementById('country');
-const indoBox = document.getElementById('indonesia-address');
-const globalBox = document.getElementById('global-address');
+    document.addEventListener('DOMContentLoaded', function () {
+        const country = document.getElementById('country');
+        const indoBox = document.getElementById('indonesia-address');
+        const globalBox = document.getElementById('global-address');
 
-// load countries
-fetch('https://restcountries.com/v3.1/all?fields=name,cca2')
-.then(res => res.json())
-.then(data => {
-    data
-      .sort((a,b) => a.name.common.localeCompare(b.name.common))
-      .forEach(c => {
-          country.innerHTML += `
-            <option value="${c.cca2}">
-                ${c.name.common}
-            </option>`;
-      });
-});
+        const province = document.getElementById('province');
+        const regency = document.getElementById('regency');
+        const district = document.getElementById('district');
+        const village = document.getElementById('village');
 
-const province = document.getElementById('province');
-const regency = document.getElementById('regency');
-const district = document.getElementById('district');
-const village = document.getElementById('village');
+        /*
+        |--------------------------------------------------------------------------
+        | Helper fetch JSON
+        |--------------------------------------------------------------------------
+        */
+        async function fetchJson(url) {
+            const response = await fetch(url, {
+                headers: {
+                    Accept: 'application/json'
+                }
+            });
 
-function loadProvinces() {
-    fetch('/api/indo/provinces')
-    .then(res => res.json())
-    .then(data => {
-        province.innerHTML = '<option>Provinsi</option>';
-        data.forEach(p => {
-            province.innerHTML += `<option value="${p.id}">${p.name}</option>`;
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${url}`);
+            }
+
+            return response.json();
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Helper membuat option
+        |--------------------------------------------------------------------------
+        */
+        function appendOption(select, value, text) {
+            const option = document.createElement('option');
+
+            option.value = value;
+            option.textContent = text;
+
+            select.appendChild(option);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Reset wilayah Indonesia
+        |--------------------------------------------------------------------------
+        */
+        function resetIndonesiaAddress() {
+            province.innerHTML =
+                '<option value="">Select Province</option>';
+
+            regency.innerHTML =
+                '<option value="">Select Regency / City</option>';
+
+            district.innerHTML =
+                '<option value="">Select District</option>';
+
+            village.innerHTML =
+                '<option value="">Select Village</option>';
+
+            regency.disabled = true;
+            district.disabled = true;
+            village.disabled = true;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Load countries
+        |--------------------------------------------------------------------------
+        */
+        async function loadCountries() {
+            country.disabled = true;
+            country.innerHTML =
+                '<option value="">Loading countries...</option>';
+
+            try {
+                const result = await fetchJson('/api/countries');
+
+                if (!Array.isArray(result.data)) {
+                    throw new Error('Format response countries tidak valid');
+                }
+
+                country.innerHTML =
+                    '<option value="">Select Country</option>';
+
+                result.data.forEach(item => {
+                    appendOption(
+                        country,
+                        item.code,
+                        item.name
+                    );
+                });
+            } catch (error) {
+                console.error('Gagal load countries:', error);
+
+                country.innerHTML =
+                    '<option value="">Failed to load countries</option>';
+            } finally {
+                country.disabled = false;
+            }
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Load provinces
+        |--------------------------------------------------------------------------
+        */
+        async function loadProvinces() {
+            resetIndonesiaAddress();
+
+            province.disabled = true;
+            province.innerHTML =
+                '<option value="">Loading provinces...</option>';
+
+            try {
+                const data = await fetchJson('/api/indo/provinces');
+
+                if (!Array.isArray(data)) {
+                    throw new Error('Format response provinces tidak valid');
+                }
+
+                province.innerHTML =
+                    '<option value="">Select Province</option>';
+
+                data.forEach(item => {
+                    appendOption(
+                        province,
+                        item.id,
+                        item.name
+                    );
+                });
+            } catch (error) {
+                console.error('Gagal load provinces:', error);
+
+                province.innerHTML =
+                    '<option value="">Failed to load provinces</option>';
+            } finally {
+                province.disabled = false;
+            }
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Country change
+        |--------------------------------------------------------------------------
+        */
+        country.addEventListener('change', function () {
+            resetIndonesiaAddress();
+
+            if (this.value === 'ID') {
+                indoBox.style.display = 'block';
+                globalBox.style.display = 'none';
+
+                loadProvinces();
+                return;
+            }
+
+            if (this.value !== '') {
+                indoBox.style.display = 'none';
+                globalBox.style.display = 'block';
+                return;
+            }
+
+            indoBox.style.display = 'none';
+            globalBox.style.display = 'none';
         });
-    });
-}
 
-province.addEventListener('change', () => {
-    regency.disabled = false;
-    fetch(`/api/indo/regencies/${province.value}`)
-    .then(res => res.json())
-    .then(data => {
-        regency.innerHTML = '<option>Kabupaten / Kota</option>';
-        data.forEach(r => {
-            regency.innerHTML += `<option value="${r.id}">${r.name}</option>`;
+        /*
+        |--------------------------------------------------------------------------
+        | Province -> Regency / City
+        |--------------------------------------------------------------------------
+        */
+        province.addEventListener('change', async function () {
+            regency.innerHTML =
+                '<option value="">Select Regency / City</option>';
+
+            district.innerHTML =
+                '<option value="">Select District</option>';
+
+            village.innerHTML =
+                '<option value="">Select Village</option>';
+
+            regency.disabled = true;
+            district.disabled = true;
+            village.disabled = true;
+
+            if (!this.value) {
+                return;
+            }
+
+            regency.innerHTML =
+                '<option value="">Loading regencies...</option>';
+
+            try {
+                const data = await fetchJson(
+                    `/api/indo/regencies/${encodeURIComponent(this.value)}`
+                );
+
+                if (!Array.isArray(data)) {
+                    throw new Error('Format response regencies tidak valid');
+                }
+
+                regency.innerHTML =
+                    '<option value="">Select Regency / City</option>';
+
+                data.forEach(item => {
+                    appendOption(
+                        regency,
+                        item.id,
+                        item.name
+                    );
+                });
+
+                regency.disabled = false;
+            } catch (error) {
+                console.error('Gagal load regencies:', error);
+
+                regency.innerHTML =
+                    '<option value="">Failed to load regencies</option>';
+            }
         });
-    });
-});
 
-regency.addEventListener('change', () => {
-    district.disabled = false;
-    fetch(`/api/indo/districts/${regency.value}`)
-    .then(res => res.json())
-    .then(data => {
-        district.innerHTML = '<option>Kecamatan</option>';
-        data.forEach(d => {
-            district.innerHTML += `<option value="${d.id}">${d.name}</option>`;
+        /*
+        |--------------------------------------------------------------------------
+        | Regency -> District
+        |--------------------------------------------------------------------------
+        */
+        regency.addEventListener('change', async function () {
+            district.innerHTML =
+                '<option value="">Select District</option>';
+
+            village.innerHTML =
+                '<option value="">Select Village</option>';
+
+            district.disabled = true;
+            village.disabled = true;
+
+            if (!this.value) {
+                return;
+            }
+
+            district.innerHTML =
+                '<option value="">Loading districts...</option>';
+
+            try {
+                const data = await fetchJson(
+                    `/api/indo/districts/${encodeURIComponent(this.value)}`
+                );
+
+                if (!Array.isArray(data)) {
+                    throw new Error('Format response districts tidak valid');
+                }
+
+                district.innerHTML =
+                    '<option value="">Select District</option>';
+
+                data.forEach(item => {
+                    appendOption(
+                        district,
+                        item.id,
+                        item.name
+                    );
+                });
+
+                district.disabled = false;
+            } catch (error) {
+                console.error('Gagal load districts:', error);
+
+                district.innerHTML =
+                    '<option value="">Failed to load districts</option>';
+            }
         });
-    });
-});
 
-district.addEventListener('change', () => {
-    village.disabled = false;
-    fetch(`/api/indo/villages/${district.value}`)
-    .then(res => res.json())
-    .then(data => {
-        village.innerHTML = '<option>Kelurahan</option>';
-        data.forEach(v => {
-            village.innerHTML += `<option value="${v.id}">${v.name}</option>`;
+        /*
+        |--------------------------------------------------------------------------
+        | District -> Village
+        |--------------------------------------------------------------------------
+        */
+        district.addEventListener('change', async function () {
+            village.innerHTML =
+                '<option value="">Select Village</option>';
+
+            village.disabled = true;
+
+            if (!this.value) {
+                return;
+            }
+
+            village.innerHTML =
+                '<option value="">Loading villages...</option>';
+
+            try {
+                const data = await fetchJson(
+                    `/api/indo/villages/${encodeURIComponent(this.value)}`
+                );
+
+                if (!Array.isArray(data)) {
+                    throw new Error('Format response villages tidak valid');
+                }
+
+                village.innerHTML =
+                    '<option value="">Select Village</option>';
+
+                data.forEach(item => {
+                    appendOption(
+                        village,
+                        item.id,
+                        item.name
+                    );
+                });
+
+                village.disabled = false;
+            } catch (error) {
+                console.error('Gagal load villages:', error);
+
+                village.innerHTML =
+                    '<option value="">Failed to load villages</option>';
+            }
         });
+
+        loadCountries();
     });
-});
-
-country.addEventListener('change', function () {
-    if (this.value === 'ID') {
-        indoBox.style.display = 'block';
-        globalBox.style.display = 'none';
-        loadProvinces();
-    } else if (this.value) {
-        indoBox.style.display = 'none';
-        globalBox.style.display = 'block';
-    } else {
-        indoBox.style.display = 'none';
-        globalBox.style.display = 'none';
-    }
-});
-
-
 </script>
 <script>
 document.getElementById("notaInput").addEventListener("change", function (event) {
