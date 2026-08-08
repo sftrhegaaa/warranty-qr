@@ -25,36 +25,44 @@ class HistoryUserController extends Controller
         // default alamat lama
         $w->alamat_admin = $w->address;
 
-        if ($w->country_code === 'ID' && $w->province) {
+    if (
+            $w->country_code === 'ID' &&
+            $w->province &&
+            $w->city &&
+            $w->district &&
+            $w->village
+        )
+        {
 
             $prov = collect($provinces)
                 ->firstWhere('id', $w->province);
 
             $regencies = Http::get(
                 url("/api/indo/regencies/{$w->province}")
-            )->json();
+            )->json() ?? [];
 
             $city = collect($regencies)
                 ->firstWhere('id', $w->city);
 
             $districts = Http::get(
                 url("/api/indo/districts/{$w->city}")
-            )->json();
+            )->json() ?? [];
 
             $district = collect($districts)
                 ->firstWhere('id', $w->district);
 
             $villages = Http::get(
                 url("/api/indo/villages/{$w->district}")
-            )->json();
+            )->json() ?? [];
 
             $village = collect($villages)
                 ->firstWhere('id', $w->village);
 
             $w->alamat_admin =
-                "{$w->address}<br>" .
-                "{$prov['name']}, {$city['name']}<br>" .
-                "Kec. {$district['name']}, Kel. {$village['name']}";
+                ($w->address ?? '-') . "<br>" .
+                ($prov['name'] ?? '-') . ', ' . ($city['name'] ?? '-') . "<br>" .
+                'Kec. ' . ($district['name'] ?? '-') .
+                ', Kel. ' . ($village['name'] ?? '-');
         }
         else {     
             $w->alamat_admin =
