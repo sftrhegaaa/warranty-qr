@@ -42,12 +42,12 @@ class WarrantyController extends Controller
             'tanggal_lahir' => 'required|date',
             'gender'        => 'nullable|string',
             'nota'          => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
-            'country_code'  => 'nullable|string|size:2',
-            'province'      => 'nullable|string',
-            'city'          => 'nullable|string',
-            'district'      => 'nullable|string',
-            'village'       => 'nullable|string',
-            'address'       => 'nullable|string',
+            'country_code'  => 'required|string|size:2',
+            'province'      => 'required_if:country_code,ID|nullable|string',
+            'city'          => 'required_if:country_code,ID|nullable|string',
+            'district'      => 'required_if:country_code,ID|nullable|string',
+            'village'       => 'required_if:country_code,ID|nullable|string',
+            'address'       => 'required_if:country_code,ID|nullable|string',
         ]);
 
         $file = $request->file('nota');
