@@ -86,7 +86,7 @@
                             <td class="text-center">{{ $p->warna }}</td>
                             <td class="text-center">{{ $p->nama_toko }}</td>
                             <td>
-                                {!! QrCode::size(50)->generate($p->qr) !!}
+                                {{-- {!! QrCode::size(50)->generate($p->qr) !!} --}}
                                 <div class="mt-2 small fw-bold">
                                     {{ $p->kode_barang }}
                                 </div>
